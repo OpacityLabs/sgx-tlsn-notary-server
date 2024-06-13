@@ -1,0 +1,14 @@
+# EigenLayer Slasher contract address
+
+# This is the address of the contracts which are deployed in the anvil saved state
+# The saved eigenlayer state is located in tests/anvil/credible_squaring_avs_deployment_output.json
+# TODO(samlaf): automate updating these addresses when we deploy new contracts
+opacityAvsAddress: 0xbfc5d26C6eEb46475eB3960F5373edC5341eE535
+avsDirectoryAddress: 0x055733000064333CaDDbC92763c58BF0192fFeBf
+chainId: 17000
+
+# ETH RPC URL
+ethRpcUrl: https://ethereum-holesky.publicnode.com
+
+ecdsaPrivateKeyStorePath: ./fixture/operator/mainKeyECDSA.ecdsa.key.json
+blsPrivateKeyStorePath: ./fixture/operator/mainKeyBLS.bls.key.json

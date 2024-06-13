@@ -1,6 +1,7 @@
 pub mod auth;
 pub mod cli;
 pub mod notary;
+pub mod operator;
 
 use serde::{Deserialize, Serialize};
 
