@@ -1,8 +1,9 @@
+use bn254::{PrivateKey, PublicKey};
 use eth_keystore::{decrypt_key, encrypt_key, new};
 use ethers_signers::{LocalWallet, Signer};
 use eyre::{eyre, Result};
 use hex;
-use secp256k1::{PublicKey, SecretKey};
+
 use std::path::Path;
 use structopt::StructOpt;
 use tracing::debug;
@@ -36,13 +37,26 @@ async fn main() -> Result<(), NotaryServerError> {
     )
     .unwrap();
 
-    let wallet = LocalWallet::decrypt_keystore(
-        &operator_config.ecdsa_private_key_store_path,
-        &cli_fields.operator_ecdsa_key_password,
+    let bn254_secret = eth_bn254_keystore::decrypt_key(
+        &operator_config.bls_private_key_store_path,
+        &cli_fields.operator_bls_key_password,
     )
     .unwrap();
 
-    println!("Wallet: {:?}", &wallet.address());
+    let private_key = PrivateKey::try_from(bn254_secret.as_ref()).unwrap();
+    let public_key = PublicKey::from_private_key(&private_key);
+
+    public_key.0.x();
+
+    println!("Bn254 X: {:?}", &public_key.0.x());
+    println!("Bn254 Y: {:?}", &public_key.0.y());
+    // let wallet = LocalWallet::decrypt_keystore(
+    //     &operator_config.bls_private_key_store_path,
+    //     &cli_fields.operator_bls_key_password,
+    // )
+    // .unwrap();
+
+    // println!("Wallet: {:?}", &wallet.address());
 
     // Run the server
     // run_server(&tlsn_config).await?;
